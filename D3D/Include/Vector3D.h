@@ -1,4 +1,7 @@
 #pragma once
+
+#include <iostream>
+
 class Vector3D
 {
  
@@ -29,6 +32,25 @@ public:
 
   Vector3D
   operator*(float scalar);
+
+  Vector3D&
+  operator/=(float scalar);
+
+  Vector3D
+  operator/(float scalar);
+
+  float
+  length();
+
+  float
+  dot(const Vector3D& v);
+
+  Vector3D
+  cross(const Vector3D& v);
+
+  Vector3D 
+  normalize();
+
 
   union
   {
