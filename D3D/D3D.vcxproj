@@ -138,12 +138,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Framework.h" />
+    <ClInclude Include="DXManager.h" />
+    <ClInclude Include="Include\Framework.h" />
     <ClInclude Include="Include\SystemDefs.h" />
     <ClInclude Include="Include\Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="DXManager.cpp" />
+    <ClCompile Include="Source\Framework.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Vector3D.cpp" />
   </ItemGroup>

@@ -13,7 +13,7 @@ public:
 
 private:  
 
-  bool CreateDXWindow(char* windowTile,
+  bool CreateDXWindow(const char* windowTile,
                       int x,
                       int y,
                       int width,

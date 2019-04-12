@@ -1,11 +1,12 @@
 #include "Framework.h"
 
 void main() {
-  Framework framwork;
+  Framework* framwork = new Framework();
    
-  if(framwork.Initilize()) {
-    framwork.Run();
+  if(framwork->Initilize()) {
+    framwork->Run();
   }
-
+  
+  delete framwork;
   return;
 }

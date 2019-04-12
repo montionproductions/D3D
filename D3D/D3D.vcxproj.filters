@@ -18,10 +18,13 @@
     <ClInclude Include="Include\Vector3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework.h">
+    <ClInclude Include="Include\SystemDefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Include\SystemDefs.h">
+    <ClInclude Include="DXManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,7 +35,10 @@
     <ClCompile Include="Source\Vector3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework.cpp">
+    <ClCompile Include="DXManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Framework.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
