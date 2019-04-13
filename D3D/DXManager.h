@@ -39,10 +39,10 @@ private:
   bool InitilizeDepthStencilBuffer();
   bool InitilizeStencilView();
   bool InitilizeRasterizerState();
-  bool InitilizeViewport(int screenWidth,
+  void InitilizeViewport(int screenWidth,
                          int screenHeight);
 
-  bool InitilizaAlphaBlending();
+  bool InitilizeAlphaBlending();
   bool InitilaizeZBuffer();
 
   bool m_vsync_enabled;
