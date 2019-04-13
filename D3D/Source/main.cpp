@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-void main() {
+int main() {
   Framework* framwork = new Framework();
    
   if(framwork->Initilize()) {
@@ -8,5 +8,5 @@ void main() {
   }
   
   delete framwork;
-  return;
+  return 0;
 }
