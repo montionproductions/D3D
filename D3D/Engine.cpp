@@ -10,15 +10,12 @@ Engine::Engine()
 void Engine::Update()
 {
 
-  if(m_graphics) {
-    delete m_graphics;
-    m_graphics = NULL;
-  }
+  
 }
 
 void Engine::Render()
 {
-  m_graphics->BeginScene(0.0f, 0.f, 0.f, 0.f);
+  m_graphics->BeginScene(1.0f, 0.f, 0.f, 0.f);
 
   //render stuff goes here
 
@@ -28,6 +25,10 @@ void Engine::Render()
 
 Engine::~Engine()
 {
+  if (m_graphics) {
+    delete m_graphics;
+    m_graphics = NULL;
+  }
 }
 
 bool Engine::InitializeGraphics(HWND hwnd)
