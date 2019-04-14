@@ -139,15 +139,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DXManager.h" />
+    <ClInclude Include="Include\DXManager.h" />
+    <ClInclude Include="Include\Engine.h" />
     <ClInclude Include="Include\Framework.h" />
+    <ClInclude Include="Include\Graphics.h" />
     <ClInclude Include="Include\SystemDefs.h" />
+    <ClInclude Include="Include\TextureShader.h" />
     <ClInclude Include="Include\Vector3D.h" />
+    <ClInclude Include="Shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DXManager.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Source\DXManager.cpp" />
     <ClCompile Include="Source\Framework.cpp" />
+    <ClCompile Include="Source\Graphics.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Shader.cpp" />
+    <ClCompile Include="Source\TextureShader.cpp" />
     <ClCompile Include="Source\Vector3D.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

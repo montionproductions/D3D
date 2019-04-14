@@ -20,6 +20,8 @@ Framework::~Framework()
     ChangeDisplaySettings(NULL, 0);
   }
 
+  Engine::GetEngine()->Release();
+
   UnregisterClass(m_applicationName, m_hInstace);
   m_hInstace = NULL;
 }
@@ -30,6 +32,10 @@ Framework::Initilize() {
   if(!CreateDXWindow("Engine", WINDOW_POSX, WINDOW_POSY, SCREEN_WIGTH, SCREEN_HEIGTH)) {
     return false;
   }
+
+  if(!Engine::GetEngine()->Initialize(m_hInstace, Engine::GetEngine()->GetGraphics()->GetHwnd())) {
+    return false;
+  } 
 
   return true;
 }
@@ -47,6 +53,7 @@ Framework::Run() {
     }
     else {
       //update & render fuctions
+      Engine::GetEngine()->Run();
     }
   }
 }
@@ -107,16 +114,43 @@ bool Framework::CreateDXWindow(const char* windowTile,
   hwnd = CreateWindowEx(WS_EX_APPWINDOW, windowTile, windowTile, nStyle, x, y, width, height, NULL, NULL, m_hInstace, NULL);
   if(hwnd == NULL) {
     MessageBox(NULL, "CreateWindowEx() failed", "Error", MB_OK);
+    Engine::GetEngine()->Release();
     PostQuitMessage(0);
 
     return false;
   }
 
+  if(!Engine::GetEngine()->InitializeGraphics(hwnd)) {
+    MessageBox(hwnd, "Could not initialize Directx 11", "Errr", MB_OK);
+    Engine::GetEngine()->Release();
+    PostQuitMessage(0);
+    UnregisterClass(m_applicationName, m_hInstace);
+    m_hInstace = NULL;
+    DestroyWindow(hwnd);
+    
+    return false;
+  }
+
+  Engine::GetEngine()->GetGraphics()->SetHwnd(hwnd);
+
+  if(!Engine::GetEngine()->InitializeGraphics(hwnd)) {
+    MessageBox(hwnd, "Could not initialize Directx 11", "Error", MB_OK);
+    Engine::GetEngine()->Release();
+    PostQuitMessage(0);
+    UnregisterClass(m_applicationName, m_hInstace);
+    m_hInstace = NULL;
+    DestroyWindow(hwnd);
+  
+    return false;
+  }
+
+  Engine::GetEngine()->GetGraphics()->SetHwnd(hwnd);
+
   ShowWindow(hwnd, SW_SHOW);
   SetForegroundWindow(hwnd);
   SetFocus(hwnd);
 
-  return false;
+  return true;
 
 }
 
@@ -128,6 +162,12 @@ LRESULT CALLBACK WndProc(HWND hwnd,
   HDC hdc;
   switch (message)
   {
+  case WM_KEYDOWN: {
+    if(wParam == VK_ESCAPE) {
+      PostQuitMessage(0);
+      DestroyWindow(hwnd);
+    }
+  } break;
   case WM_PAINT:
     {
       hdc = BeginPaint(hwnd, &ps);
