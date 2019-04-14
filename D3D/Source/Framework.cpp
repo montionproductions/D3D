@@ -50,6 +50,7 @@ Framework::Run() {
     if(PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {
       TranslateMessage(&msg);
       DispatchMessage(&msg);
+      //Engine::GetEngine()->Run();
     }
     else {
       //update & render fuctions

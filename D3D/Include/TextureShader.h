@@ -22,6 +22,7 @@ protected:
                   LPCSTR shaderFileName,
                   LPCSTR vertexFuncName,
                   LPCSTR pixelFuncName);
+  bool InitializeSamplerState(ID3D11Device * device);
 private:
   ID3D11SamplerState* m_samplerState;
 };

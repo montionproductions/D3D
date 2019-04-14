@@ -3,7 +3,7 @@
 TextureShader::TextureShader(ID3D11Device * device, HWND hwnd, LPCSTR shaderFileName, LPCSTR vertexFuncName, LPCSTR pixelFuncName)
   : Shader(device, hwnd, shaderFileName, vertexFuncName, pixelFuncName)
 {
-  
+  m_initialized = InitializeSamplerState(device);
 }
 
 TextureShader::~TextureShader()
@@ -32,6 +32,13 @@ bool TextureShader::Initialize(ID3D11Device * device, HWND hwnd, LPCSTR shaderFi
     return false;
   }
 
+  
+  
+  return true;
+}
+
+bool TextureShader::InitializeSamplerState(ID3D11Device * device)
+{
   D3D11_SAMPLER_DESC samplerDesc;
   HRESULT result;
 
@@ -49,12 +56,11 @@ bool TextureShader::Initialize(ID3D11Device * device, HWND hwnd, LPCSTR shaderFi
   samplerDesc.BorderColor[3] = 0;
   samplerDesc.MinLOD = 0;
   samplerDesc.MinLOD = D3D11_FLOAT32_MAX;
-  
+
   //Create sampler state
   result = device->CreateSamplerState(&samplerDesc, &m_samplerState);
-  if(FAILED(result)) {
+  if (FAILED(result)) {
     return false;
   }
-  
   return true;
 }

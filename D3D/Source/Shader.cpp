@@ -7,7 +7,7 @@ Shader::Shader(ID3D11Device * device, HWND hwnd, LPCSTR shaderFileName, LPCSTR v
   m_layout = 0;
   m_matrixBuffer = 0;
   
-  m_initilized = Initialize(device, hwnd, shaderFileName, vertexFuncName, pixelFuncName);
+  m_initialized = Initialize(device, hwnd, shaderFileName, vertexFuncName, pixelFuncName);
 
 }
 
@@ -110,7 +110,7 @@ char * Shader::GetName()
 
 bool Shader::IsInitialize()
 {
-  return m_initilized;
+  return m_initialized;
 }
 
 bool Shader::Initialize(ID3D11Device * device, HWND hwnd, LPCSTR shaderFileName, LPCSTR vertexFuncName, LPCSTR pixelFuncName)
@@ -123,12 +123,12 @@ bool Shader::Initialize(ID3D11Device * device, HWND hwnd, LPCSTR shaderFileName,
   
   char vsFileName[100];
   strcpy_s(vsFileName, shaderFileName);
-  strcpy_s(vsFileName, ".vs");
+  strcat_s(vsFileName, ".vs");
   vsFileName[strlen(shaderFileName) + 4] = '\0';
   
   char psFileName[100];
   strcpy_s(psFileName, shaderFileName);
-  strcpy_s(psFileName, ".ps");
+  strcat_s(psFileName, ".ps");
   psFileName[strlen(shaderFileName) + 4] = '\0';
 
   //Initalize the vertex and pixel shaders
@@ -170,7 +170,7 @@ bool Shader::InitializeShader(ID3D11Device * device, HWND hwnd, LPCSTR vsFileNam
   result = D3DX11CompileFromFile(psFileName,
                                  NULL,
                                  NULL,
-                                 vertexFuncName,
+                                 pixelFuncName,
                                  "ps_5_0",
                                  D3D10_SHADER_ENABLE_STRICTNESS,
                                  0, NULL, &pixelShaderBuffer, &errorMessage, NULL);
@@ -237,7 +237,7 @@ bool Shader::InitializeShader(ID3D11Device * device, HWND hwnd, LPCSTR vsFileNam
 
   //Setup the matrix buffer description
   matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-  matrixBufferDesc.ByteWidth = sizeof(matrixBufferDesc);
+  matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
   matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
   matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
   matrixBufferDesc.MiscFlags = 0;
