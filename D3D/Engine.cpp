@@ -18,22 +18,24 @@ void Engine::Update()
 
 void Engine::Render()
 {
-  m_graphics->BeginScene(0.0f, 0.f, 0.f, 0.f);
+  m_graphics->BeginScene(0.0f, 0.1f, 1.f, 1.f);
 
   //render stuff goes here
+  D3DXMATRIX worldMatrix;
   D3DXMATRIX viewMatrix;
   D3DXMATRIX projMatrix;
-  D3DXMATRIX worldMatrix;
 
-  D3DXVECTOR3 position = D3DXVECTOR3(0,0,-100.f);
-  D3DXVECTOR3 up = D3DXVECTOR3(0,1,0);
-  D3DXVECTOR3 lookAt = D3DXVECTOR3(0,0,1);
+  D3DXVECTOR3 aye = D3DXVECTOR3(0.0f,0.0f,-100.0f);
+  D3DXVECTOR3 at = D3DXVECTOR3(0.0f,0.0f,1.0f);
+  D3DXVECTOR3 up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
   
-  D3DXMatrixLookAtLH(&viewMatrix, &position, &lookAt, &up);
-  D3DXMatrixOrthoLH(&projMatrix, (float)SCREEN_WIGTH, (float)SCREEN_HEIGTH, 0.1f, 1000.f);
   D3DXMatrixIdentity(&worldMatrix);
+  D3DXMatrixLookAtLH(&viewMatrix, &aye, &at, &up);
+  D3DXMatrixOrthoLH(&projMatrix, (float)SCREEN_WIGTH, (float)SCREEN_HEIGTH, 0.1f, 1000.0f);
 
-  m_graphics->EnableAlphaBlending(true);
+
+  //m_graphics->EnableAlphaBlending(true);
+  //m_graphics->EnableZBuffer(true);
   
   textureShader->SetShaderParameters(m_graphics->GetDeviceContex(),
                                      texture->GetTexture());
@@ -82,7 +84,7 @@ bool Engine::Initialize(HINSTANCE hinstance, HWND hwnd)
   vertexBuffer = new VertexBuffer();
   vertexBuffer->Initialize(m_graphics->GetDevice(),
                            textureShader,
-                           100.f);
+                           1.f);
   return true;
 }
 

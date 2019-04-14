@@ -46,16 +46,16 @@ bool TextureShader::InitializeSamplerState(ID3D11Device * device)
   samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
   samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
   samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-  samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+  samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
   samplerDesc.MipLODBias = 0.0f;
   samplerDesc.MaxAnisotropy = 1;
-  samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-  samplerDesc.BorderColor[0] = 0;
-  samplerDesc.BorderColor[1] = 0;
-  samplerDesc.BorderColor[2] = 0;
-  samplerDesc.BorderColor[3] = 0;
+  samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+  samplerDesc.BorderColor[0] = 1;
+  samplerDesc.BorderColor[1] = 1;
+  samplerDesc.BorderColor[2] = 1;
+  samplerDesc.BorderColor[3] = 1;
   samplerDesc.MinLOD = 0;
-  samplerDesc.MinLOD = D3D11_FLOAT32_MAX;
+  samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
   //Create sampler state
   result = device->CreateSamplerState(&samplerDesc, &m_samplerState);

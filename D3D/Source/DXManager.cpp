@@ -197,7 +197,7 @@ bool DXManager::Initialize(int screenWigth, int screenHeight, bool vsync, HWND h
     return false;
   }
 
-  //bind the render target vire and depth stencil buffer to the output render pipelene
+  //bind the render target view and depth stencil buffer to the output render pipelene
   m_deviceContext->OMSetRenderTargets(1, &m_renderTargetView, m_depthStencilView);
 
   if(!InitilizeRasterizerState()) {
@@ -236,6 +236,8 @@ void DXManager::BeginScene(float r, float g, float b, float a)
 
 void DXManager::EndScene()
 {
+  //m_deviceContext->Draw(6, 0);
+
   if(m_vsync_enabled) {
     //lock to screen refresh rate
     m_swapChain->Present(1,0);
@@ -249,9 +251,9 @@ void DXManager::EnableAlphaBlending(bool enable)
 {
   float blendFactor[4];
   blendFactor[0] = 0.0f;
-  blendFactor[0] = 0.0f;
-  blendFactor[0] = 0.0f;
-  blendFactor[0] = 0.0f;
+  blendFactor[1] = 0.0f;
+  blendFactor[2] = 0.0f;
+  blendFactor[3] = 0.0f;
   
   if(enable) {
     m_deviceContext->OMSetBlendState(m_alphaEnableBlendingState, blendFactor, 0xffffffff);
@@ -303,7 +305,7 @@ bool DXManager::InitializeSwapChain(HWND hwnd, bool fullscreen, int screenWidth,
     swapChainDesc.BufferDesc.RefreshRate.Numerator = numerator;
     swapChainDesc.BufferDesc.RefreshRate.Denominator = denominator;  
   } else {
-    swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+    swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
     swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
   }
 
@@ -330,7 +332,18 @@ bool DXManager::InitializeSwapChain(HWND hwnd, bool fullscreen, int screenWidth,
   swapChainDesc.Flags = 0;
   featureLevel = D3D_FEATURE_LEVEL_11_0;
 
-  result = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, &featureLevel, 1, D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device, NULL, &m_deviceContext);
+  result = D3D11CreateDeviceAndSwapChain(NULL,
+                                         D3D_DRIVER_TYPE_HARDWARE, 
+                                         NULL, 
+                                         0, 
+                                         &featureLevel,
+                                         1, 
+                                         D3D11_SDK_VERSION, 
+                                         &swapChainDesc, 
+                                         &m_swapChain, 
+                                         &m_device, 
+                                         NULL, 
+                                         &m_deviceContext);
 
   if(FAILED(result)) {
     return false;
@@ -383,8 +396,8 @@ bool DXManager::InitilizeDepthStencilBuffer()
   depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
   depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
   depthStencilDesc.StencilEnable  = TRUE;
-  depthStencilDesc.StencilReadMask = 0xFF;  
-  depthStencilDesc.StencilWriteMask = 0xFF;
+  depthStencilDesc.StencilReadMask = 0x0f;  
+  depthStencilDesc.StencilWriteMask = 0x0f;
    
   //stenil operations id puxel front-facing
   depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
@@ -467,8 +480,8 @@ void DXManager::InitilizeViewport(int screenWidth, int screenHeight)
   D3D11_VIEWPORT viewport;
   
   //setup
-  viewport.Width = (float)screenWidth;
-  viewport.Height = (float)screenHeight;
+  viewport.Width = static_cast<float>(screenWidth);
+  viewport.Height = static_cast<float>(screenHeight);
   viewport.MinDepth = 0.0f;
   viewport.MaxDepth = 1.0f;
   viewport.TopLeftX = 0.0f;

@@ -9,7 +9,7 @@ cbuffer MatrixBuffer
 struct VertexInputType
 {
 	float4 position : POSITION;
-	float4 tex : TEXCOORD0;
+	float2 tex : TEXCOORD0;
 };
 
 struct PixelInputType
@@ -22,7 +22,7 @@ PixelInputType TextureVertexShader(VertexInputType input) {
 	PixelInputType output;
 
 	// Change the position vector to be 4 units for proper matrix calculations
-	input.position = 1.0f;
+	input.position.w = 1.0f;
 
 	//Calculate the position of the vertex against the world and projection matrices.
 	output.position = mul(input.position, worldMatrix);
@@ -32,5 +32,6 @@ PixelInputType TextureVertexShader(VertexInputType input) {
 	//Store the texture for the pixel shader
 	output.tex = input.tex;
 
-	return output;
+	//return output;
+	return input;
 }

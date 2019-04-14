@@ -97,7 +97,7 @@ bool VertexBuffer::Initialize(ID3D11Device * device, Shader * shader, float size
   //Set up index data
   indexData.pSysMem = indices;
   indexData.SysMemPitch = 0;
-  indexData.SysMemSlicePitch =0;
+  indexData.SysMemSlicePitch = 0;
 
   //create index buffer
   result = device->CreateBuffer(&indexBufferDesc, &indexData, &m_indexBuffer);

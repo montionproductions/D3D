@@ -100,7 +100,7 @@ bool Shader::SetShaderParameters(ID3D11DeviceContext * deviceContext, D3DXMATRIX
   //Update values en shaders device context
   deviceContext->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
 
-  return false;
+  return true;
 }
 
 char * Shader::GetName()
