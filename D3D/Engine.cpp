@@ -6,9 +6,8 @@ Engine* Engine::m_instance = NULL;
 Engine::Engine()
 {
   m_graphics = NULL;
-  vertexBuffer = NULL;
-  textureShader = NULL;
-  texture = NULL;
+  m_textureShader = NULL;
+  m_sprite = NULL;
 }
 
 void Engine::Update()
@@ -38,12 +37,7 @@ void Engine::Render()
   m_graphics->EnableAlphaBlending(true);
   //m_graphics->EnableZBuffer(true);
   
-  textureShader->SetShaderParameters(m_graphics->GetDeviceContex(),
-                                     texture->GetTexture());
-  textureShader->SetShaderParameters(m_graphics->GetDeviceContex(),
-                                     worldMatrix, viewMatrix, projMatrix);
-
-  vertexBuffer->Render(m_graphics->GetDeviceContex());
+  m_sprite->Render(m_graphics->GetDeviceContex(), worldMatrix, viewMatrix, projMatrix);
 
   m_graphics->EndScene();
 }
@@ -56,9 +50,12 @@ Engine::~Engine()
     m_graphics = NULL;
   }
 
-  delete vertexBuffer;
-  delete texture;
-  delete textureShader;
+  delete m_textureShader;
+  m_textureShader = NULL;
+
+  delete m_sprite;
+  m_sprite = NULL;
+
 }
 
 bool Engine::InitializeGraphics(HWND hwnd)
@@ -72,20 +69,13 @@ bool Engine::Initialize(HINSTANCE hinstance, HWND hwnd)
 { 
   m_graphics->Initialize();
 
-  textureShader = new TextureShader(m_graphics->GetDevice(),
-                                    hwnd,
-                                    "texture",
-                                    "TextureVertexShader",
-                                    "TexturePixelShader");
-
-  texture = new Texture();
-  texture->Initialized(m_graphics->GetDevice(),
-                       "redFace.png");
-
-  vertexBuffer = new VertexBuffer();
-  vertexBuffer->Initialize(m_graphics->GetDevice(),
-                           textureShader,
-                           1.f);
+  m_textureShader = new TextureShader(m_graphics->GetDevice(),
+                                      hwnd,
+                                      "texture",
+                                      "TextureVertexShader",
+                                      "TexturePixelShader");
+  
+  m_sprite->Initialize(m_graphics->GetDevice(), m_textureShader, "redFace.png");
   return true;
 }
 
@@ -101,6 +91,12 @@ void Engine::Release()
     delete m_instance;
     m_instance = NULL;
   }
+
+  delete m_textureShader;
+  m_textureShader = NULL;
+  
+  delete m_sprite;
+  m_sprite = NULL;
 }
 
 Engine * Engine::GetEngine()
