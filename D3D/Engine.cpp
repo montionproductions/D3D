@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <xnamath.h>
 
 Engine* Engine::m_instance = NULL;
 
@@ -18,23 +19,23 @@ void Engine::Update()
 
 void Engine::Render()
 {
-  m_graphics->BeginScene(0.0f, 0.1f, 1.f, 1.f);
+  m_graphics->BeginScene(0.0f, 0.5f, 0.5f, 1.f);
 
   //render stuff goes here
   D3DXMATRIX worldMatrix;
   D3DXMATRIX viewMatrix;
   D3DXMATRIX projMatrix;
 
-  D3DXVECTOR3 aye = D3DXVECTOR3(0.0f,0.0f,-100.0f);
-  D3DXVECTOR3 at = D3DXVECTOR3(0.0f,0.0f,1.0f);
+  D3DXVECTOR3 aye = D3DXVECTOR3(0.0f, 3.0f, -6.0f);
+  D3DXVECTOR3 at = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
   D3DXVECTOR3 up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
   
   D3DXMatrixIdentity(&worldMatrix);
   D3DXMatrixLookAtLH(&viewMatrix, &aye, &at, &up);
-  D3DXMatrixOrthoLH(&projMatrix, (float)SCREEN_WIGTH, (float)SCREEN_HEIGTH, 0.1f, 1000.0f);
+  D3DXMatrixPerspectiveFovLH(&projMatrix, XM_PIDIV4, SCREEN_WIGTH / (FLOAT)SCREEN_HEIGTH, 0.01f, 100.0f);
 
 
-  //m_graphics->EnableAlphaBlending(true);
+  m_graphics->EnableAlphaBlending(true);
   //m_graphics->EnableZBuffer(true);
   
   textureShader->SetShaderParameters(m_graphics->GetDeviceContex(),
@@ -79,7 +80,7 @@ bool Engine::Initialize(HINSTANCE hinstance, HWND hwnd)
 
   texture = new Texture();
   texture->Initialized(m_graphics->GetDevice(),
-                       "test.png");
+                       "redFace.png");
 
   vertexBuffer = new VertexBuffer();
   vertexBuffer->Initialize(m_graphics->GetDevice(),
