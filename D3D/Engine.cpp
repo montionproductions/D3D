@@ -75,6 +75,7 @@ bool Engine::Initialize(HINSTANCE hinstance, HWND hwnd)
                                       "TextureVertexShader",
                                       "TexturePixelShader");
   
+  m_sprite = new Sprite(1.0f);
   m_sprite->Initialize(m_graphics->GetDevice(), m_textureShader, "redFace.png");
   return true;
 }
@@ -91,12 +92,6 @@ void Engine::Release()
     delete m_instance;
     m_instance = NULL;
   }
-
-  delete m_textureShader;
-  m_textureShader = NULL;
-  
-  delete m_sprite;
-  m_sprite = NULL;
 }
 
 Engine * Engine::GetEngine()

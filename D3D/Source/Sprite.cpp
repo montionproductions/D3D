@@ -2,9 +2,8 @@
 
 Sprite::Sprite(float size)
 {
-  m_shader = NULL;
-  m_texute = NULL;
-  m_vertexBuffer = NULL;  
+  m_vertexBuffer = NULL;
+  m_texture = NULL;
 
   m_size = size;
   
@@ -17,10 +16,8 @@ Sprite::~Sprite()
     m_vertexBuffer = NULL;
   }
 
-  if(m_texture) {
-    delete m_texture;
-    m_texture = NULL;
-  }
+  delete m_texture;
+  m_texture = NULL;
 }
 
 void Sprite::Initialize(ID3D11Device * device, Shader * shader, LPCSTR textureFileName)
